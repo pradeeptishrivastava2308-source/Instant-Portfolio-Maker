@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Editable Classic Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+  --primary: #2563eb;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: system-ui, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  padding: 40px 16px;
+}
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.toolbar button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: var(--card);
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.header, .section {
+  padding: 28px 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+h1 { font-size: 2rem; }
+h2 { color: var(--primary); }
+h3 { color: var(--primary); }
+
+p { color: var(--muted); }
+
+.editable {
+  outline: none;
+  cursor: text;
+}
+
+.editable:hover {
+  background: #eef2ff;
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skill {
+  padding: 6px 12px;
+  background: #eef2ff;
+  color: var(--primary);
+  border-radius: 999px;
+}
+
+.box {
+  max-width: 900px;
+  margin: 20px auto;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar">
+  <span>Click on text to edit ✏️</span>
+  <button onclick="savePortfolio()">Save Portfolio</button>
+</div>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1 class="editable" contenteditable data-key="name">Your Name</h1>
+    <h2 class="editable" contenteditable data-key="role">Your Role</h2>
+    <p class="editable" contenteditable data-key="intro">
+      Write a short introduction about yourself.
+    </p>
+  </div>
+
+  <!-- Skills -->
+  <div class="section">
+    <h3>Skills</h3>
+    <div class="skills editable" contenteditable data-key="skills">
+      <span class="skill">HTML</span>
+      <span class="skill">CSS</span>
+      <span class="skill">JavaScript</span>
+    </div>
+  </div>
+
+  <!-- Projects -->
+  <div class="section">
+    <h3>Projects</h3>
+    <div class="editable" contenteditable data-key="projects">
+      <strong>Project Title</strong>
+      <p>Describe your project here.</p>
+    </div>
+  </div>
+
+  <!-- Education -->
+  <div class="section">
+    <h3>Education</h3>
+    <p class="editable" contenteditable data-key="education">
+      Degree · University · Year
+    </p>
+  </div>
+
+  <!-- Contact -->
+  <div class="section">
+    <h3>Contact</h3>
+    <div class="editable" contenteditable data-key="contact">
+      <p>Email: your@email.com</p>
+      <p>LinkedIn: linkedin.com/in/you</p>
+      <p>Phone: +91 XXXXXXXXXX</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Link Box -->
+<div class="box">
+  <p><strong>Your Live Portfolio Link:</strong></p>
+  <a id="portfolioLink" target="_blank"></a>
+  <br><br>
+  <button onclick="copyLink()">Copy Link</button>
+</div>
+
+<script>
+/* Load saved data */
+document.querySelectorAll(".editable").forEach(el => {
+  const key = el.dataset.key;
+  const saved = localStorage.getItem("portfolio_" + key);
+  if (saved) el.innerHTML = saved;
+});
+
+/* Save portfolio */
+function savePortfolio() {
+  document.querySelectorAll(".editable").forEach(el => {
+    const key = el.dataset.key;
+    localStorage.setItem("portfolio_" + key, el.innerHTML);
+  });
+  alert("Portfolio saved successfully!");
+}
+
+/* Generate live link */
+const template = "classic.html"; // current template
+const baseURL = window.location.origin + "/";
+const fullLink = baseURL + template;
+
+const linkEl = document.getElementById("portfolioLink");
+linkEl.href = fullLink;
+linkEl.innerText = fullLink;
+
+/* Copy link */
+function copyLink() {
+  navigator.clipboard.writeText(fullLink);
+  alert("Portfolio link copied!");
+}
+</script>
+
+</body>
+</html>
+

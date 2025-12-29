@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sidebar Profile Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  :root {
+    --primary: #2563eb;
+    --bg: #f8fafc;
+    --sidebar: #0f172a;
+    --text: #0f172a;
+    --muted: #64748b;
+    --card: #ffffff;
+  }
+
+  * {
+    box-sizing: border-box;
+    font-family: system-ui, sans-serif;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: #020617;
+    color: white;
+    align-items: center;
+  }
+
+  .top-bar button {
+    background: var(--primary);
+    border: none;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    background: var(--sidebar);
+    color: white;
+    padding: 26px 20px;
+  }
+
+  .sidebar h1 {
+    font-size: 1.6rem;
+    margin-bottom: 4px;
+  }
+
+  .sidebar h2 {
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: #cbd5f5;
+    margin-bottom: 20px;
+  }
+
+  .sidebar p {
+    font-size: 0.9rem;
+    color: #cbd5f5;
+    line-height: 1.6;
+  }
+
+  .sidebar section {
+    margin-top: 28px;
+  }
+
+  .sidebar strong {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  /* MAIN CONTENT */
+  .content {
+    padding: 32px;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  }
+
+  h3 {
+    color: var(--primary);
+    margin-bottom: 12px;
+  }
+
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .skill {
+    background: #e0e7ff;
+    color: #1e3a8a;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+  }
+
+  .project {
+    margin-bottom: 12px;
+  }
+
+  .project strong {
+    display: block;
+  }
+
+  .editable {
+    cursor: text;
+    outline: none;
+  }
+
+  .editable:hover {
+    background: rgba(37,99,235,0.1);
+    border-radius: 6px;
+  }
+
+  @media (max-width: 800px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+    .sidebar {
+      border-radius: 0 0 20px 20px;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="top-bar">
+  <span>Click text to edit • Sidebar Profile Template</span>
+  <button onclick="saveData()">Save</button>
+</div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h1 class="editable" contenteditable data-key="name">Your Name</h1>
+    <h2 class="editable" contenteditable data-key="role">Your Role</h2>
+
+    <p class="editable" contenteditable data-key="about">
+      Short professional summary about yourself goes here.
+    </p>
+
+    <section>
+      <strong>Contact</strong>
+      <p class="editable" contenteditable data-key="contact">
+        Email: you@email.com<br>
+        LinkedIn: linkedin.com/in/you<br>
+        Phone: +91 XXXXXXXXXX
+      </p>
+    </section>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="content">
+
+    <div class="card">
+      <h3>Skills</h3>
+      <div class="skills editable" contenteditable data-key="skills">
+        <span class="skill">HTML</span>
+        <span class="skill">CSS</span>
+        <span class="skill">JavaScript</span>
+        <span class="skill">React</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Projects</h3>
+      <div class="editable" contenteditable data-key="projects">
+        <div class="project">
+          <strong>Project One</strong>
+          <span>Brief project description</span>
+        </div>
+        <div class="project">
+          <strong>Project Two</strong>
+          <span>Another project description</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Education</h3>
+      <p class="editable" contenteditable data-key="education">
+        Degree • College • Year
+      </p>
+    </div>
+
+  </main>
+
+</div>
+<div style="max-width:1200px;margin:30px auto;text-align:center">
+  <p><strong>Your Live Portfolio Link:</strong></p>
+  <a id="portfolioLink" target="_blank"></a>
+  <br><br>
+  <button onclick="copyLink()"
+    style="background:#9333ea;color:white;border:none;padding:10px 20px;border-radius:20px;cursor:pointer">
+    Copy Link
+  </button>
+</div>
+
+<script>
+  /* Load saved editable data */
+document.querySelectorAll(".editable").forEach(el => {
+  const key = el.dataset.key;
+  const saved = localStorage.getItem("design_" + key);
+  if (saved) el.innerHTML = saved;
+});
+
+/* Save portfolio */
+function saveData() {
+  document.querySelectorAll(".editable").forEach(el => {
+    localStorage.setItem("design_" + el.dataset.key, el.innerHTML);
+  });
+  alert("Design & Arts portfolio saved!");
+}
+
+/* ===== LIVE LINK GENERATION ===== */
+const template = "sidebar.html"; // CURRENT TEMPLATE
+const baseURL = window.location.origin + "/";
+const liveLink = baseURL + template;
+
+/* Show link */
+const linkEl = document.getElementById("portfolioLink");
+linkEl.href = liveLink;
+linkEl.innerText = liveLink;
+
+/* Copy link */
+function copyLink() {
+  navigator.clipboard.writeText(liveLink);
+  alert("Portfolio link copied!");
+}
+  
+</script>
+
+</body>
+</html>
+

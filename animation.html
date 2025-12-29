@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Editor - Customize Your Design</title>
+    <style>
+        body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      padding: 40px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .templates {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .template-card {
+      background: white;
+      padding: 30px;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: 0.3s;
+      border: 3px solid transparent;
+    }
+
+    .template-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .template-card.selected {
+      border-color: #2563eb;
+    }
+
+    #continueBtn {
+      margin-top: 40px;
+      padding: 14px 30px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  
+    </style>
+    </head>
+    <body>
+        <h1>Select Your Animated Portfolio Template</h1>
+<p>Choose a design you like. You can edit everything later.</p>
+
+<div class="templates">
+  <div class="template-card" data-template="classic_animated">
+    <h3>Classic Fade + Slide up Animation</h3>
+  </div>
+
+  <div class="template-card" data-template="modern_grid_animated">
+    <h3>Modern Grid with Wow effects</h3>
+  </div>
+
+  <div class="template-card" data-template="Design_and_arts_animated">
+    <h3>Design & Arts with Bouncy Animation</h3>
+  </div>
+
+  <div class="template-card" data-template="sidebar_animated">
+    <h3>Sidebar Profile smooth animation</h3>
+  </div>
+</div>
+
+<button id="continueBtn">Continue</button>
+
+<script>
+  const cards = document.querySelectorAll(".template-card");
+  let selectedTemplate = null;
+
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+      cards.forEach(c => c.classList.remove("selected"));
+      card.classList.add("selected");
+
+      selectedTemplate = card.dataset.template;
+      localStorage.setItem("selectedTemplate", selectedTemplate);
+    });
+  });
+
+  document.getElementById("continueBtn").addEventListener("click", () => {
+    if (!selectedTemplate) {
+      alert("Please select a template first");
+      return;
+    }
+
+    window.open(`${selectedTemplate}.html`, "_blank");
+  });
+</script>
+
+</body>
+</html>
+
+
+    
+        
